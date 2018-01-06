@@ -1,0 +1,39 @@
+{
+    "manifest_version": 2,
+
+    "name":"clock",
+    "description": "practise how to write my first chrome extension",
+    "version": "1.0", // 最多可以是由三个圆点分为四段的版本号
+
+    "icons": {
+        "1": "images/icon1.png" // 16像素 显示右键菜单
+    },
+    "browser_action": {
+        "default_icon": {
+            "1": "images/icon1.png", // 小像素19
+            "2": "images/icon2.png"  // 大像素38
+        },
+        "default_title": "我的时钟",
+        "default_popup": "popup.html"
+    },
+    "web_accessible_resources": ["images/icon1.png"], // 桌面提醒图标
+    "content_scripts": [ // 嵌入页面的配置
+        {
+            "matches": ["*://www.ituring.com.cn/*"],
+            "js": ["js/cannot_touch.js"]
+        }
+    ],
+    "permissions": [ // 跨域设置
+        "storage",          // chrome存储数据
+        "contextMenus",     // 右键菜单权限
+        "notifications",    // 桌面提醒权限
+        "http://2017.ip138.com/ic.asp",
+        "http://www.google.cn/"
+    ],
+    "background": { // 后台运行配置
+        "scripts": [
+            "js/background.js"
+        ]
+    },
+    "options_page": "options.html"
+}
