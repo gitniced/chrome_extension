@@ -18,12 +18,13 @@ function httpRequest(url, callback){
 //     });
 // },5000);
 
-
+var imgList = [];
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
     if(message = 'Hello'){
-        sendResponse(sender);
+        sendResponse(imgList);
     }
 })
+
 
 // 右键菜单
 chrome.contextMenus.create({
@@ -76,3 +77,33 @@ chrome.contextMenus.create({
     parentId: 'a'
 });
 
+// 下载 标签注入js
+chrome.contextMenus.create({
+    type: 'normal',
+    title: '保存所有图片',
+    id: 'saveall',
+});
+
+chrome.contextMenus.onClicked.addListener(function(info, tab){
+    chrome.browserAction.setIcon({path: 'images/'+(status?'online.png':'offline.png')});
+    
+    if(info.menuItemId == 'saveall'){
+        chrome.tabs.executeScript(tab.id, {
+            file: 'js/execute.js',
+            allFrames: true,
+            runAt: 'document_start',
+            // code: 'document.body.style.backgroundColor="red"'
+        }, function(results){
+            imgList = results;
+            if (results && results[0] && results[0].length){
+                results[0].forEach(function(url) {
+                    chrome.downloads.download({
+                        url: url,
+                        conflictAction: 'uniquify',
+                        saveAs: false
+                    });
+                });
+            }
+        });
+    }
+});

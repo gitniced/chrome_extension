@@ -27,6 +27,9 @@
         "storage",          // chrome存储数据
         "contextMenus",     // 右键菜单权限
         "notifications",    // 桌面提醒权限
+        "downloads",        // 下载权限
+        "tabs",             // 标签权限
+        "activeTab",        // 在响应用户显式操作时才需要获得标签页的访问权限
         "http://2017.ip138.com/ic.asp",
         "http://www.google.cn/"
     ],
@@ -35,5 +38,11 @@
             "js/background.js"
         ]
     },
-    "options_page": "options.html"
+    "options_page": "options.html",
+    // Override page(一个扩展只能替换一个页面)
+    "chrome_url_overrides" : {
+        // "bookmarks": "bookmarks.html",
+        // "history": "history.html",
+        "newtab": "newtab.html"
+    }
 }
