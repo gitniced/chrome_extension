@@ -1,7 +1,7 @@
 {
     "app": {
         "background": {
-            "scripts": ["background.js"]
+            "scripts": ["js/background.js"]
         }
     },
     "manifest_version": 2,
@@ -9,12 +9,28 @@
     "version": "1.0",
     "description": "A performance monitor to show cpu and memory status.",
     "icons": {
-        "16": "images/icon16.png",
-        "48": "images/icon48.png",
-        "128": "images/icon128.png"
+        "16": "images/icon1.png",
+        "48": "images/icon2.png",
+        "128": "images/IconRed.png"
     },
     "permissions": [
         "system.cpu",
-        "system.memory"
-    ]
+        "system.memory",
+        "https://cdnjs.cloudflare.com/",
+        "webview"
+    ],
+    "webview": {
+        "partitions": [
+            {
+                "name": "sandbox",
+                "accessible_resources": ["html/sandbox.html"]
+            }
+        ]
+    },
+    "sandbox": {
+        "pages": [
+          "html/sandbox.html"
+        ]
+        // 内容安全策略是可选的。
+    }
 }
