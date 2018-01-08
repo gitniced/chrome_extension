@@ -6,7 +6,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
             'width': 542,
             'height': 360
         },
-        'resizable': false,
+        // 'resizable': false,
         'frame': 'none'
     })
 })

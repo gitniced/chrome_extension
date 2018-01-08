@@ -23,14 +23,8 @@
         "partitions": [
             {
                 "name": "sandbox",
-                "accessible_resources": ["html/sandbox.html"]
+                "accessible_resources": ["**/*.html","**/*.js"]
             }
         ]
-    },
-    "sandbox": {
-        "pages": [
-          "html/sandbox.html"
-        ]
-        // 内容安全策略是可选的。
     }
 }
