@@ -61,4 +61,136 @@ xhr.onload = function(e) {
 
 xhr.send();
 
-// 在页面添加meta标签，设置 csp 允许加载外部资源
+
+// 读取文件
+// chrome.fileSystem.chooseEntry({type: 'openFile'}, function(fileEntry){
+//     fileEntry.file(function(file){
+//         var reader = new FileReader();
+//         reader.onload = function(){
+//             var text = this.result;
+//             console.log(text);
+//         }
+//         reader.readAsText(file);
+//     });
+// });
+
+
+// 遍历目录
+var loopEntriesButton = document.getElementById('le');
+
+loopEntriesButton.addEventListener('click', function(e) {
+    chrome.fileSystem.chooseEntry({type: 'openDirectory'}, function(Entry) {
+        document.getElementById('loopEntry').innerText = Entry.fullPath;
+        getSubEntries(0, Entry, document.getElementById('loopEntry'));
+    });
+});
+
+// 递归获取子目录 
+function getSubEntries(depth, Entry, parent){
+    var dirReader = Entry.createReader();
+    dirReader.readEntries(function(Entries) {
+        for(var i=0; i<Entries.length; i++){
+            var newParent = document.createElement('div');
+            newParent.id = Date.now();
+            newParent.innerText = echoEntry(depth+1, Entries[i]);
+            parent.appendChild(newParent);
+            if(Entries[i].isDirectory){
+                getSubEntries(depth+1, Entries[i], newParent);
+            }
+        }
+    }, errorHandler);
+}
+// 例：
+// ├── config                      // 配置
+// │   ├── default.json
+// │   ├── dev.json                // 开发环境
+// │   ├── experiment.json         // 实验
+// │   ├── index.js                // 配置控制
+// │   ├── local.json              // 本地
+// │   ├── production.json         // 生产环境
+// │   └── test.json               // 测试环境
+// ├── data
+// ├── doc                         // 文档
+// ├── environment
+
+function echoEntry(depth, Entry){
+    var tree = depth > 1 ? '│ ' : '├──';
+    for(var i=0; i<depth-1; i++){
+        tree += ' ─';
+    }
+    return (tree+' '+ Entry.name);
+}
+
+function errorHandler(e){
+    console.log(e.message);
+}
+
+
+// 创建，删除目录 exclusive存在返回错误
+// chrome.fileSystem.chooseEntry({type:'openDirectory'}, function(Entry){
+//     Entry.getDirectory('new_folder', {create: true, exclusive: true}, function(sunEntry){
+//     }, errorHandler);
+// })
+
+// chrome.fileSystem.chooseEntry({type: 'openDirectory'}, function(Entry) {
+//     Entry.getDirectory('new_folder', {}, function(subEntry) {
+//         subEntry.remove(function(){
+//             console.log('Directory has been removed.');
+//         }, errorHandler);
+//     }, errorHandler);
+// });
+
+// // 文件另存为
+// chrome.fileSystem.chooseEntry({type:'saveFile', suggestedName: 'README.md'}, function(Entry){
+
+// });
+
+// 创建，删除文件
+// chrome.fileSystem.chooseEntry({type:'openDirectory'}, function(Entry){
+//     if(chrome.runtime.lastError){
+//         console.warn('Wooops...' + chrome.runtime.lastError.message);
+//         return ;
+//     }
+//     Entry.getFile('log.txt', {create: true, exclusive: true}, function(sunEntry){
+//     }, errorHandler);
+// })
+
+// chrome.fileSystem.chooseEntry({type: 'openDirectory'}, function(Entry) {
+//     Entry.getFile('log.txt', {}, function(fileEntry) {
+//         fileEntry.remove(function(){
+//             console.log('File has been removed.');
+//         }, errorHandler);
+//     }, errorHandler);
+// });
+
+
+// 全部删除
+// chrome.fileSystem.chooseEntry({type: 'openDirectory'}, function(Entry) {
+//     Entry.getDirectory('new_folder', {}, function(subEntry) {
+//         subEntry.removeRecursively(function(){
+//             console.log('Directory has been removed.');
+//         }, errorHandler);
+//     }, errorHandler);
+// });
+
+// 文件写入
+chrome.fileSystem.chooseEntry({
+    type: 'saveFile',
+    suggestedName: 'log1.txt'
+}, function(fileEntry) {
+    fileEntry.createWriter(function(fileWriter) {
+        fileWriter.write(new Blob([
+            `├── config                      // 配置\r
+│   ├── default.json\r
+│   ├── dev.json                // 开发环境\r
+│   ├── experiment.json         // 实验\r
+│   ├── index.js                // 配置控制\r
+│   ├── local.json              // 本地\r
+│   ├── production.json         // 生产环境\r
+│   └── test.json               // 测试环境\r
+├── data\r
+├── doc                         // 文档\r
+├── environment`
+        ], {type: 'text/plain'}));
+    }, errorHandler);
+}); 

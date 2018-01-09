@@ -31,7 +31,12 @@ function updateCpuHistory(){
         cpu_history.kernel.push(usage.kernel);
         cpu_history.total.shift();
         cpu_history.total.push(usage.total);
-        showCpu();
+        if(!cpuChart){
+           showCpu(); 
+        }else{
+            cpuChart.update();
+        }
+        
     });
 }
 
@@ -39,7 +44,11 @@ function updateMemHistory(){
     getMemUsage(function(usage){
         mem_history.used.shift();
         mem_history.used.push(Math.round((usage.capacity-usage.availableCapacity)/usage.capacity*100));
-        showMem();
+        if(!memChart){
+            showMem(); 
+         }else{
+             memChart.update();
+         }
     });
 }
 
@@ -55,15 +64,21 @@ function showCpu(){
             labels : (function(){for(var i=0,labels=[];i<ponits_num;labels.push(''),i++);return labels;})(),
             datasets : [
                 {
-                    fillColor : "rgba(220,220,220,0.5)",
+                    label:'total',
+                    borderColor : "rgba(220,220,220,0.8)",
+                    backgroundColor : "rgba(220,220,220,0.5)",
                     data : cpu_history.total
                 },
                 {
-                    fillColor : "rgba(90,140,255,0.5)",
+                    label:'kernel',
+                    borderColor : "rgba(90,140,255,0.8)",
+                    backgroundColor : "rgba(90,140,255,0.2)",
                     data : cpu_history.kernel
                 },
                 {
-                    fillColor : "rgba(255,90,90,0.5)",
+                    label:'user',
+                    borderColor : "rgba(255,90,90,0.8)",
+                    backgroundColor : "rgba(255,90,90,0.2)",
                     data : cpu_history.user
                 }
             ]
@@ -82,8 +97,8 @@ function showCpu(){
         }            
     ];
     var his_ctx = document.getElementById('cpu_history').getContext("2d");
-    var now_ctx = document.getElementById("cpu_total").getContext("2d");
-    new Chart(his_ctx,history);
+    // var now_ctx = document.getElementById("cpu_total").getContext("2d");
+    cpuChart = new Chart(his_ctx,history);
     // new Chart(now_ctx).Pie(now, {segmentShowStroke:false,animation:false});
 }
 
@@ -94,7 +109,9 @@ function showMem(){
             labels : (function(){for(var i=0,labels=[];i<ponits_num;labels.push(''),i++);return labels;})(),
             datasets : [
                 {
-                    fillColor : "rgba(220,220,220,0.5)",
+                    label:'used',
+                    borderColor : "rgba(220,220,220,0.8)",
+                    backgroundColor : "rgba(220,220,220,0.2)",
                     data : mem_history.used
                 }
             ]
@@ -119,8 +136,8 @@ function showMem(){
         }            
     ];
     var his_ctx = document.getElementById('mem_history').getContext("2d");
-    var now_ctx = document.getElementById("mem_total").getContext("2d");
-    new Chart(his_ctx, history);
+    // var now_ctx = document.getElementById("mem_total").getContext("2d");
+    memChart = new Chart(his_ctx, history);
     // new Chart(now_ctx).Pie(now, {segmentShowStroke:false,animation:false});
 }
 
@@ -164,4 +181,6 @@ function init_mem_history(){
 }
 
 var cpu_history, mem_history, ponits_num=20;
+var cpuChart = null;
+var memChart = null;
 init();

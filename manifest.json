@@ -18,7 +18,8 @@
         "system.memory",
         "https://cdnjs.cloudflare.com/",
         "https://ssl.gstatic.com/",
-        "webview"
+        "webview",
+        {"fileSystem": ["write", "retainEntries", "directory"]} 
     ],
     "webview": {
         "partitions": [

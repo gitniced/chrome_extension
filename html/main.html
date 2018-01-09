@@ -77,17 +77,18 @@
     </div>
     <div id="box_body">
         <div class="usage_item">CPU Usage</div>
-        <div class="chart">
-            <canvas id="cpu_total" width="100" height="100"></canvas>
+        <div class="chart" style="display:none;">
+            <!-- <canvas id="cpu_total" width="100" height="100"></canvas> -->
             <canvas id="cpu_history" width="400" height="100"></canvas>
         </div>
         <div class="usage_item">Memory Usage</div>
-        <div class="chart">
-            <canvas id="mem_total" width="100" height="100"></canvas>
+        <div class="chart" style="display:none;">
+            <!-- <canvas id="mem_total" width="100" height="100"></canvas> -->
             <canvas id="mem_history" width="400" height="100"></canvas>
         </div>
     </div>
-    
+    <input type="button" id="le" value="Loop Entries" />
+    <div id="loopEntry"></div>
     <script src="../js/control.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script> -->
     <!-- <script src="../main.js"></script> -->

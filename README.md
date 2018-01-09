@@ -32,7 +32,18 @@ Webview
 代码注入，需要考虑代码运行环境（浏览器环境，拓展环境）
 
 Q:code注入成功，file 注入失败
+
 A:注入脚本需要在拓展的根目录下
 
 Q:使用XMLHttpsRequest获取静态资源
+
 A:manifest文件权限设置,js如有依赖，需要注意加载顺序
+
+
+文件系统
+======
+几个知识点
+* File对象
+* FileReader
+* Typed Array （javascript二进制数据的处理接口）
+* Blob对象
