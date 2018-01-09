@@ -10,3 +10,13 @@ chrome.app.runtime.onLaunched.addListener(function() {
         'frame': 'none'
     })
 })
+// 媒体库
+chrome.app.runtime.onLaunched.addListener(function() {
+    chrome.app.window.create('../html/media.html', {
+        'id': 'media',
+        'bounds': {
+            'width': 800,
+            'height': 600
+        },
+    })
+})

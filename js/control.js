@@ -174,23 +174,23 @@ function errorHandler(e){
 // });
 
 // 文件写入
-chrome.fileSystem.chooseEntry({
-    type: 'saveFile',
-    suggestedName: 'log1.txt'
-}, function(fileEntry) {
-    fileEntry.createWriter(function(fileWriter) {
-        fileWriter.write(new Blob([
-            `├── config                      // 配置\r
-│   ├── default.json\r
-│   ├── dev.json                // 开发环境\r
-│   ├── experiment.json         // 实验\r
-│   ├── index.js                // 配置控制\r
-│   ├── local.json              // 本地\r
-│   ├── production.json         // 生产环境\r
-│   └── test.json               // 测试环境\r
-├── data\r
-├── doc                         // 文档\r
-├── environment`
-        ], {type: 'text/plain'}));
-    }, errorHandler);
-}); 
+// chrome.fileSystem.chooseEntry({
+//     type: 'saveFile',
+//     suggestedName: 'log1.txt'
+// }, function(fileEntry) {
+//     fileEntry.createWriter(function(fileWriter) {
+//         fileWriter.write(new Blob([
+//             `├── config                      // 配置\r
+// │   ├── default.json\r
+// │   ├── dev.json                // 开发环境\r
+// │   ├── experiment.json         // 实验\r
+// │   ├── index.js                // 配置控制\r
+// │   ├── local.json              // 本地\r
+// │   ├── production.json         // 生产环境\r
+// │   └── test.json               // 测试环境\r
+// ├── data\r
+// ├── doc                         // 文档\r
+// ├── environment`
+//         ], {type: 'text/plain'}));
+//     }, errorHandler);
+// }); 

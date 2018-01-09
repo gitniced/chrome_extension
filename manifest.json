@@ -19,7 +19,8 @@
         "https://cdnjs.cloudflare.com/",
         "https://ssl.gstatic.com/",
         "webview",
-        {"fileSystem": ["write", "retainEntries", "directory"]} 
+        {"fileSystem": ["write", "retainEntries", "directory"]},    // 文件系统
+        {"mediaGalleries": ["read", "delete", "copyTo", "allAutoDetected"]}     // 媒体库
     ],
     "webview": {
         "partitions": [
