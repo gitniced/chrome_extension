@@ -50,21 +50,25 @@ function updateData(){
 
 function showCpu(){
     var history = {
-        labels : (function(){for(var i=0,labels=[];i<ponits_num;labels.push(''),i++);return labels;})(),
-        datasets : [
-            {
-                fillColor : "rgba(220,220,220,0.5)",
-                data : cpu_history.total
-            },
-            {
-                fillColor : "rgba(90,140,255,0.5)",
-                data : cpu_history.kernel
-            },
-            {
-                fillColor : "rgba(255,90,90,0.5)",
-                data : cpu_history.user
-            }
-        ]
+        type: 'line',
+        data:{
+            labels : (function(){for(var i=0,labels=[];i<ponits_num;labels.push(''),i++);return labels;})(),
+            datasets : [
+                {
+                    fillColor : "rgba(220,220,220,0.5)",
+                    data : cpu_history.total
+                },
+                {
+                    fillColor : "rgba(90,140,255,0.5)",
+                    data : cpu_history.kernel
+                },
+                {
+                    fillColor : "rgba(255,90,90,0.5)",
+                    data : cpu_history.user
+                }
+            ]
+        },
+        options:{}
     };
 
     var now = [
@@ -79,19 +83,29 @@ function showCpu(){
     ];
     var his_ctx = document.getElementById('cpu_history').getContext("2d");
     var now_ctx = document.getElementById("cpu_total").getContext("2d");
-    new Chart(his_ctx).Line(history, {scaleFontSize:4,pointDot:false,animation:false});
-    new Chart(now_ctx).Pie(now, {segmentShowStroke:false,animation:false});
+    new Chart(his_ctx,history);
+    // new Chart(now_ctx).Pie(now, {segmentShowStroke:false,animation:false});
 }
 
 function showMem(){
     var history = {
-        labels : (function(){for(var i=0,labels=[];i<ponits_num;labels.push(''),i++);return labels;})(),
-        datasets : [
-            {
-                fillColor : "rgba(220,220,220,0.5)",
-                data : mem_history.used
+        type: 'line',
+        data: {
+            labels : (function(){for(var i=0,labels=[];i<ponits_num;labels.push(''),i++);return labels;})(),
+            datasets : [
+                {
+                    fillColor : "rgba(220,220,220,0.5)",
+                    data : mem_history.used
+                }
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    stacked: true
+                }]
             }
-        ]
+        }
     };
 
     var now = [
@@ -106,8 +120,8 @@ function showMem(){
     ];
     var his_ctx = document.getElementById('mem_history').getContext("2d");
     var now_ctx = document.getElementById("mem_total").getContext("2d");
-    new Chart(his_ctx).Line(history, {scaleFontSize:4,pointDot:false,animation:false});
-    new Chart(now_ctx).Pie(now, {segmentShowStroke:false,animation:false});
+    new Chart(his_ctx, history);
+    // new Chart(now_ctx).Pie(now, {segmentShowStroke:false,animation:false});
 }
 
 function init(){
@@ -150,5 +164,4 @@ function init_mem_history(){
 }
 
 var cpu_history, mem_history, ponits_num=20;
-
 init();

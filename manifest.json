@@ -17,6 +17,7 @@
         "system.cpu",
         "system.memory",
         "https://cdnjs.cloudflare.com/",
+        "https://ssl.gstatic.com/",
         "webview"
     ],
     "webview": {
